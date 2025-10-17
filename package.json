@@ -23,7 +23,7 @@
     "framer-motion": "^12.23.12",
     "html-pdf": "^3.0.1",
     "jwt-decode": "^4.0.0",
-    "puppeteer": "^24.19.0",
+    "puppeteer": "^24.25.0",
     "react": "^19.1.0",
     "react-chartjs-2": "^5.3.0",
     "react-countup": "^6.5.3",
