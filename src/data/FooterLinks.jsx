@@ -1,0 +1,97 @@
+export const FooterLink2 = [
+  {
+    title: "Company",
+    links: [
+      { title: "About", link: "/about" },
+      { title: "Careers", link: "/careers" },
+      { title: "Affiliates", link: "/affiliates" },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { title: "Articles", link: "/articles" },
+      { title: "Blog", link: "/blog" },
+      { title: "Chart Sheet", link: "/chart-sheet" },
+      { title: "Code challenges", link: "/code-challenges" },
+      { title: "Docs", link: "/docs" },
+      { title: "Projects", link: "/projects" },
+      { title: "Videos", link: "/videos" },
+      { title: "Workspaces", link: "/workspaces" },
+    ],
+  },
+  {
+    title: "Support",
+    links: [
+      { title: "Help Center", link: "/support" },
+    ],
+  },
+  {
+    title: "Plans",
+    links: [
+      { title: "Paid memberships", link: "/plans/paid" },
+      { title: "For students", link: "/plans/students" },
+      { title: "Business solutions", link: "/plans/business" },
+    ],
+  },
+  {
+    title: "Community",
+    links: [
+      { title: "Forums", link: "/community/forums" },
+      { title: "Chapters", link: "/community/chapters" },
+      { title: "Events", link: "/community/events" },
+    ],
+  },
+  {
+    title: "Subjects",
+    links: [
+      { title: "AI", link: "/subjects/ai" },
+      { title: "Cloud Computing", link: "/subjects/cloud" },
+      { title: "Code Foundations", link: "/subjects/foundations" },
+      { title: "Computer Science", link: "/subjects/cs" },
+      { title: "Cybersecurity", link: "/subjects/cybersecurity" },
+      { title: "Data Analytics", link: "/subjects/analytics" },
+      { title: "Data Science", link: "/subjects/datascience" },
+      { title: "Data Visualization", link: "/subjects/visualization" },
+      { title: "Developer Tools", link: "/subjects/devtools" },
+      { title: "DevOps", link: "/subjects/devops" },
+      { title: "Game Development", link: "/subjects/game-dev" },
+      { title: "IT", link: "/subjects/it" },
+      { title: "Machine Learning", link: "/subjects/ml" },
+      { title: "Math", link: "/subjects/math" },
+      { title: "Mobile Development", link: "/subjects/mobile" },
+      { title: "Web Design", link: "/subjects/web-design" },
+      { title: "Web Development", link: "/subjects/web-dev" },
+    ],
+  },
+  {
+    title: "Languages",
+    links: [
+      { title: "Bash", link: "/languages/bash" },
+      { title: "C++", link: "/languages/cpp" },
+      { title: "C#", link: "/languages/csharp" },
+      { title: "Go", link: "/languages/go" },
+      { title: "HTML & CSS", link: "/languages/html-css" },
+      { title: "Java", link: "/languages/java" },
+      { title: "JavaScript", link: "/languages/js" },
+      { title: "Kotlin", link: "/languages/kotlin" },
+      { title: "PHP", link: "/languages/php" },
+      { title: "Python", link: "/languages/python" },
+      { title: "R", link: "/languages/r" },
+      { title: "Ruby", link: "/languages/ruby" },
+      { title: "SQL", link: "/languages/sql" },
+      { title: "Swift", link: "/languages/swift" },
+    ],
+  },
+  {
+    title: "Career building",
+    links: [
+      { title: "Career paths", link: "/career/paths" },
+      { title: "Career services", link: "/career/services" },
+      { title: "Interview prep", link: "/career/interview" },
+      { title: "Professional certification", link: "/career/certification" },
+      { title: "Full Catalog", link: "/catalog" },
+      { title: "Beta Content", link: "/beta" },
+    ],
+  },
+];
