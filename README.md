@@ -56,6 +56,7 @@ EdTech/
 ├── package.json     # Root controller to run both together
 ├── package-lock.json  
 └── README.md
+```
 
 ## Key Learnings from this Project
 * Complexity Management: Handled the logic for nested data structures (Sections > Sub-sections > Videos).
