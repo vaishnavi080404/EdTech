@@ -1,21 +1,3 @@
-// exports.emailVerificationTemplate = (otp) => {
-//   return `
-//     <html>
-//       <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
-//         <div style="max-width: 600px; margin: auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-//           <h2 style="color: #333;">Email Verification</h2>
-//           <p>Use the OTP below to verify your email address:</p>
-//           <div style="font-size: 24px; font-weight: bold; background-color: #f0f0f0; padding: 15px; border-radius: 5px; display: inline-block;">
-//             ${otp}
-//           </div>
-//           <p style="margin-top: 20px;">This OTP is valid for a limited time only. Please do not share it with anyone.</p>
-//         </div>
-//       </body>
-//     </html>
-//   `;
-// };
-
-
 exports.emailVerificationTemplate = (otp) => {
   return `<!DOCTYPE html>
 <html lang="en">

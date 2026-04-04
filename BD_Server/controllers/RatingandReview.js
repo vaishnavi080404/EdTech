@@ -2,13 +2,13 @@ const RatingAndReview = require('../models/ratingAndReview');
 const Course = require('../models/course');
 const { default: mongoose } = require("mongoose");
 const User = require("../models/user");
-// createRating
+
 exports.createRatingAndReview = async (req, res) => {
     try {
         const userId = req.user.id;
         const { rating, review, courseId } = req.body;
 
-        // Check if user is enrolled in the course
+       
         const courseDetails = await Course.findOne({
             _id: courseId,
             studentsEnrolled: { $elemMatch: { $eq: userId } },
@@ -21,7 +21,6 @@ exports.createRatingAndReview = async (req, res) => {
             });
         }
 
-        // Check if user has already reviewed the course
         const alreadyReviewed = await RatingAndReview.findOne({
             user: userId,
             course: courseId,
@@ -34,7 +33,7 @@ exports.createRatingAndReview = async (req, res) => {
             });
         }
 
-        // Create the new rating and review
+       
         const newRatingAndReview = await RatingAndReview.create({
             rating,
             review,
@@ -42,7 +41,7 @@ exports.createRatingAndReview = async (req, res) => {
             user: userId,
         });
 
-        // Add the review to the course document
+       
         await Course.findByIdAndUpdate(
             courseId,
             {
@@ -60,7 +59,7 @@ exports.createRatingAndReview = async (req, res) => {
         });
 
     } catch (error) {
-        // This will print the EXACT error to your terminal
+       
         console.error("CREATE RATING ERROR:", error);
         return res.status(500).json({
             success: false,
@@ -71,7 +70,7 @@ exports.createRatingAndReview = async (req, res) => {
 };
 
 
-//get avg rating of a course
+
 
 exports.getAvgRating = async (req, res) => {
     try{
@@ -116,7 +115,6 @@ exports.getAvgRating = async (req, res) => {
 
     }
 }
-//get all ratings and reviews of a course
 
 exports.getAllRatings = async (req, res) => {
     try {
@@ -124,11 +122,11 @@ exports.getAllRatings = async (req, res) => {
             .sort({ rating: "desc" })
             .populate({
                 path: "user",
-                select: "firstName lastName email image", // Select only the fields you need
+                select: "firstName lastName email image", // select only the fields you need
             })
             .populate({
                 path: "course",
-                select: "courseName", // Select only the course name
+                select: "courseName", // select only the course name
             })
             .exec();
 

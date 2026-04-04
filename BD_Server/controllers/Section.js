@@ -4,13 +4,12 @@ const SubSection =require("../models/subSection")
 const uploadImageToCloudinary  = require('../utils/imageUploader')
 
 
-// Create a new section
 
 exports.createSection = async (req, res) => {
     try {
         const { sectionName, courseId } = req.body;
 
-        // ✅ Validation
+       
         if (!sectionName || !courseId) {
             return res.status(400).json({
                 success: false,
@@ -18,12 +17,12 @@ exports.createSection = async (req, res) => {
             });
         }
 
-        // ✅ Create section (use correct field name)
+   
         const newSection = await Section.create({
             sectionName: sectionName
         });
 
-        // ✅ Update course and populate
+      
         const updatedCourseDetails = await Course.findByIdAndUpdate(
             courseId,
             { $push: { courseContent: newSection._id } },
@@ -51,7 +50,7 @@ exports.createSection = async (req, res) => {
 
 
 
-//update a section
+
 
 exports.updateSection = async (req,res) => {
     try {
@@ -79,7 +78,7 @@ exports.updateSection = async (req,res) => {
 		})
 		.exec();
 
-        //return res
+      
         return res.status(200).json({
             success:true,
             message:section,
@@ -99,7 +98,7 @@ exports.updateSection = async (req,res) => {
 
 
 
-//delete a section
+
 
 exports.deleteSection = async (req, res) => {
 	try {
@@ -120,12 +119,12 @@ exports.deleteSection = async (req, res) => {
 		}
         console.log("Subsections to delete:", section.subSection);
 
-		//delete sub section
+		
 		await SubSection.deleteMany({_id: {$in: section.subSection}});
 
 		await Section.findByIdAndDelete(sectionId);
 
-		//find the updated course and return 
+		
 		const course = await Course.findById(courseId).populate({
 			path:"courseContent",
 			populate: {

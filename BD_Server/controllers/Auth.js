@@ -268,7 +268,7 @@ exports.login = async (req, res) => {
         if (!user) {
             return res.status(401).json({ // Use 401 for auth errors
                 success: false,
-                message: "Invalid credentials"
+                message: "User not registered, Invalid credentials"
             });
         }
 

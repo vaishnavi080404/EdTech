@@ -11,11 +11,11 @@ const Certificate = require('../models/Certificate');
 exports.updateProfile = async (req, res) => {
    
   try {
-    // Extract profile data from request body
+    
     const { dateOfBirth = "", about = "", contactNumber, gender } = req.body;
     
 
-    // Get user ID from decoded token (set by auth middleware)
+   
     const userId = req.user.id;
 
     // Validate required fields
@@ -26,7 +26,7 @@ exports.updateProfile = async (req, res) => {
       });
     }
 
-    // Find user and their profile
+   
     const userDetails = await User.findById(userId);
     if (!userDetails) {
       return res.status(404).json({
@@ -37,7 +37,7 @@ exports.updateProfile = async (req, res) => {
 
     const profileId = userDetails.additionalDetails;
 
-    // Update profile document
+   
     const updatedProfile = await Profile.findByIdAndUpdate(
       profileId,
       {
@@ -46,10 +46,10 @@ exports.updateProfile = async (req, res) => {
         contactNumber,
         gender,
       },
-      { new: true } // Return the updated document
+      { new: true } // return the updated document
     );
 
-    // Respond with success
+    
     return res.status(200).json({
       success: true,
       message: 'Profile updated successfully',
@@ -66,7 +66,7 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
-//delete account
+
 
 exports.deleteAccount = async (req, res) => {
 	try {
@@ -81,10 +81,9 @@ exports.deleteAccount = async (req, res) => {
 				message: "User not found",
 			});
 		}
-		// Delete Assosiated Profile with the User
+
 		await Profile.findByIdAndDelete({ _id: user.additionalDetails });
-		// TODO: Unenroll User From All the Enrolled Courses
-		// Now Delete User
+		
 		await User.findByIdAndDelete({ _id: id });
 		res.status(200).json({
 			success: true,
@@ -100,9 +99,9 @@ exports.deleteAccount = async (req, res) => {
 
 exports.getAllUserDetails = async (req, res) => {
     try{
-        // find user by id
+       
         const id = req.user.id;
-        // validate the data
+       
         const userDetails = await User.findById(id).populate('additionalDetails').exec();//populate the profile details
         // if(!userDetails){
         //     return res.status(404).json({
@@ -129,8 +128,7 @@ exports.getAllUserDetails = async (req, res) => {
 
 }
 
-//get all enrolled courses
-// This is the fully corrected and debug-ready controller
+
 
 exports.getEnrolledCourses = async (req, res) => {
   try {
@@ -140,7 +138,7 @@ exports.getEnrolledCourses = async (req, res) => {
       return res.status(401).json({ success: false, message: "Unauthorized" });
     }
 
-    // We only need the 'courses' field from the user
+    
     const userDetails = await User.findById(userId)
       .populate({
         path: "courses",
@@ -151,15 +149,15 @@ exports.getEnrolledCourses = async (req, res) => {
           },
         },
       })
-      .lean() // Use .lean() for faster, plain JavaScript objects
+      .lean() 
       .exec();
 
     if (!userDetails) {
       return res.status(404).json({ success: false, message: "User not found" });
     }
 
-    // --- MAIN LOGIC REVISION ---
-    // Use Promise.all for more efficient database calls
+    
+    
     const coursesWithProgress = await Promise.all(
       userDetails.courses.map(async (course) => {
         let totalDurationInSeconds = 0;
@@ -176,7 +174,7 @@ exports.getEnrolledCourses = async (req, res) => {
 
         course.totalDuration = convertSecondsToDuration(totalDurationInSeconds);
 
-        // --- DEBUGGING LOGS ---
+        
         console.log(`🔍 Searching for progress for course: ${course._id} and user: ${userId}`);
         const courseProgress = await CourseProgress.findOne({
           courseId: course._id,
@@ -188,7 +186,7 @@ exports.getEnrolledCourses = async (req, res) => {
         } else {
             console.log(`❌ No progress found for course ${course._id}.`);
         }
-        // --- END DEBUGGING ---
+        
 
         const completedVideosCount = courseProgress?.completedVideos?.length || 0;
 
@@ -197,7 +195,7 @@ exports.getEnrolledCourses = async (req, res) => {
             ? 0
             : Math.round((completedVideosCount / subsectionLength) * 100);
 
-        // Return a new object with the added properties
+        
         return {
           ...course,
           progressPercentage: progressPercentage,
@@ -220,20 +218,18 @@ exports.getEnrolledCourses = async (req, res) => {
 };
 
 
-//update display picture
 
-// Valid image types
 const supportedTypes = ["jpg", "jpeg", "png"];
 
 exports.updateDisplayPicture = async (req, res) => {
-  //  console.log("🔵 updateDisplayPicture route hit");
+  //  console.log(" updateDisplayPicture route hit");
   // console.log("REQ HEADERS: ", req.headers);
   
   try {
    
     const userId = req.user.id;
 
-    // Check if image file is provided
+   
     if (!req.files || !req.files.image) {
       return res.status(400).json({
         success: false,
@@ -243,7 +239,7 @@ exports.updateDisplayPicture = async (req, res) => {
 
     const imageFile = req.files.image;
 
-    // Validate file type
+   
     const fileType = imageFile.name.split(".").pop().toLowerCase();
     if (!supportedTypes.includes(fileType)) {
       return res.status(400).json({
@@ -252,10 +248,10 @@ exports.updateDisplayPicture = async (req, res) => {
       });
     }
 
-    // Upload to Cloudinary
+    
     const result = await uploadImageToCloudinary(imageFile, "Vaish", 80);
 
-    // Update user document
+    
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { image: result.secure_url },
@@ -278,11 +274,10 @@ exports.updateDisplayPicture = async (req, res) => {
   }
 };
 
-// In /controllers/Profile.js
 
 exports.instructorDashboard = async (req, res) => {
     try {
-        // --- THIS IS THE DEBUGGING STEP ---
+        
         // We have moved the 'isInstructor' logic directly into the controller.
         if (req.user.accountType !== "Instructor") {
             return res.status(401).json({
@@ -290,7 +285,7 @@ exports.instructorDashboard = async (req, res) => {
                 message: "This is a protected route for Instructors only.",
             });
         }
-        // --- END OF DEBUGGING STEP ---
+     
 
         const courseDetails = await Course.find({ instructor: req.user.id });
 
@@ -351,7 +346,7 @@ exports.getPurchaseHistory = async (req, res) => {
 };
 
 
-// controllers/analyticsController.js
+
 
 exports.updateUserActivity = async (req, res) => {
     try {
@@ -363,20 +358,19 @@ exports.updateUserActivity = async (req, res) => {
     }
 };
 
-// --- GET STUDENT ANALYTICS ---
-// The final, robust version that handles all edge cases.
+
 exports.getStudentAnalytics = async (req, res) => {
     try {
         const userId = req.user.id;
 
-        // --- Active Users Metric ---
+        
         const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
         const activeUsersToday = await User.countDocuments({
             accountType: 'Student',
             lastSeen: { $gte: twentyFourHoursAgo },
         });
 
-        // --- Score and Rank Metric ---
+      
         const allUsers = await User.find({ accountType: 'Student' }).populate('courseProgress').exec();
 
         if (!allUsers || allUsers.length === 0) {
@@ -443,14 +437,13 @@ exports.getStudentAnalytics = async (req, res) => {
 
 exports.getAllUserCertificates = async (req, res) => {
     try {
-        const userId = req.user.id; // Get user ID from authenticated request
+        const userId = req.user.id; 
 
         console.log(`[getAllUserCertificates] Fetching certificates for user ID: ${userId}`);
 
-        // Find all certificates belonging to this user
-        // Populate the 'course' field to get course name for display
+
         const certificates = await Certificate.find({ user: userId })
-                                                .populate('course', 'courseName thumbnail') // Only fetch courseName and thumbnail
+                                                .populate('course', 'courseName thumbnail') 
                                                 .exec();
 
         if (!certificates || certificates.length === 0) {

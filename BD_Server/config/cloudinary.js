@@ -1,4 +1,4 @@
-//import cloudinary
+
 const cloudinary = require('cloudinary').v2;
 
 exports.cloudinaryConnect =()=>{

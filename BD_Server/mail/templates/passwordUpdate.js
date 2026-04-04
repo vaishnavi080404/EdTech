@@ -1,17 +1,3 @@
-// exports.passwordUpdatedTemplate = (name = "") => {
-//   return `
-//   <html>
-//     <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
-//       <div style="max-width: 600px; margin: auto; background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-//         <h2 style="color: #333;">🔒 Password Changed Successfully</h2>
-//         <p>Hi ${name},</p>
-//         <p>Your password has been successfully updated. If you did not request this change, please contact support immediately.</p>
-//         <p style="margin-top: 20px;">Stay safe,<br><b>Team</b></p>
-//       </div>
-//     </body>
-//   </html>
-//   `;
-// };
 exports.passwordUpdatedTemplate = (name = "") => {
   return `<!DOCTYPE html>
 <html lang="en">

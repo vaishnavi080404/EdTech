@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config(); 
 const express = require('express');
 const app = express();
 
@@ -16,23 +16,23 @@ const fileUpload = require('express-fileupload');
 
 const admin = require('firebase-admin');
 
-// Initialize Firebase Admin
+// initialize Firebase Admin
 admin.initializeApp({
   credential: admin.credential.applicationDefault()
 });
 
 const PORT = process.env.PORT || 4000;
 
-// Connect to MongoDB
+// connect to MongoDB
 database.connectDB();
 
-// Middleware
+// middleware
 app.use(express.json());
-// Add this line to parse URL-encoded request bodies
+// add this line to parse URL-encoded request bodies
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:5174"],  // ✅ or '*' if testing
+  origin: ["http://localhost:5173", "http://localhost:5174"],  //  or '*' if testing
   credentials: true,
 }));
 app.use(fileUpload({
@@ -40,22 +40,22 @@ app.use(fileUpload({
   tempFileDir: './temp/',
 }));
 
-// ✅ Call this directly
+//  call this directly
 cloudinaryConnect();
 
-// Routes
+// routes
 app.use('/api/v1/auth', userRoutes);
 app.use('/api/v1/course', courseRoutes);
 app.use('/api/v1/payment', paymentRoutes);
 app.use('/api/v1/profile', profileRoutes);
 app.use('/api/v1/progress', courseProgressRoutes);
 
-// Default route
+// default route
 app.get("/", (request, response) => {
     response.send('WELCOMEE!');
 })
 
-// Start server
+// start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

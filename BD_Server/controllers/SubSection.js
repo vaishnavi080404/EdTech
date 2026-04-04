@@ -2,14 +2,14 @@ const SubSection = require("../models/subSection");
 const Section = require("../models/section");
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
 
-// Create a new sub-section for a given section
+
 exports.createSubsection = async (req, res) => {
   try {
-    // Extract necessary information from the request body
+    
     const { sectionId, title, description } = req.body
     const video = req.files.videoFile
 
-    // Check if all necessary fields are provided
+  
     if (!sectionId || !title || !description || !video) {
       return res
         .status(404)
@@ -23,7 +23,7 @@ exports.createSubsection = async (req, res) => {
       process.env.FOLDER_NAME
     )
     console.log(uploadDetails)
-    // Create a new sub-section with the necessary information
+
     const SubSectionDetails = await SubSection.create({
       title: title,
       timeDuration: `${uploadDetails.duration}`,
@@ -31,17 +31,17 @@ exports.createSubsection = async (req, res) => {
       videoUrl: uploadDetails.secure_url,
     })
 
-    // Update the corresponding section with the newly created sub-section
+    
     const updatedSection = await Section.findByIdAndUpdate(
       { _id: sectionId },
       { $push: { subSection: SubSectionDetails._id } },
       { new: true }
     ).populate("subSection")
 
-    // Return the updated section in the response
+   
     return res.status(200).json({ success: true, data: updatedSection })
   } catch (error) {
-    // Handle any errors that may occur during the process
+    
     console.error("Error creating new sub-section:", error)
     return res.status(500).json({
       success: false,
@@ -51,7 +51,7 @@ exports.createSubsection = async (req, res) => {
   }
 }
 
-//Update subsection
+
 exports.updateSubSection = async (req, res) => {
     try {
       const { sectionId,subSectionId, title, description } = req.body
@@ -99,7 +99,7 @@ exports.updateSubSection = async (req, res) => {
     }
   }
   
-  //delete subsection
+
   exports.deleteSubsection = async (req, res) => {
     try {
       const { subSectionId, sectionId } = req.body

@@ -42,7 +42,7 @@ exports.resetPasswordToken = async (req, res) => {
  }
 }
 
-//reset password
+
 
 exports.resetPassword = async (req, res) => {
     try {
@@ -79,7 +79,7 @@ exports.resetPassword = async (req, res) => {
             { new: true }
         );
 
-        // ✅ Send confirmation email
+        // send confirmation email
         await mailSender(
             updatedUser.email,
             "Password Changed Successfully",

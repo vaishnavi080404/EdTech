@@ -9,7 +9,7 @@ const { certificateTemplate } = require('../mail/templates/certificateTemplate')
 const { courseCompletionEmail } = require('../mail/templates/courseCompletionEmail'); // A new template
 const mailSender = require('../utils/mailSender');
 
-// BD_Server/controllers/courseProgress.js
+
 
 exports.markLectureAsComplete = async (req, res) => {
     try {
@@ -22,8 +22,7 @@ exports.markLectureAsComplete = async (req, res) => {
 
         if (!courseProgress) {
             console.log(`[markLectureAsComplete] Course progress not found for user ${userId} and course ${courseId}.`);
-            // This case should ideally be handled earlier, but if it happens, we can create one or return an error.
-            // For now, let's assume it should exist from enrollment.
+            
             return res.status(404).json({ success: false, message: 'Course progress not found.' });
         }
         
@@ -36,8 +35,6 @@ exports.markLectureAsComplete = async (req, res) => {
         await courseProgress.save();
         console.log(`[markLectureAsComplete] SubSection ${subSectionId} added to completed videos for user ${userId}.`);
 
-
-        // --- Stage 2: The Critical Completion Check ---
         const updatedCourseProgress = await CourseProgress.findOne({ courseId, userId });
         const course = await Course.findById(courseId).populate({ path: 'courseContent', populate: { path: 'subSection' } });
         
@@ -47,11 +44,11 @@ exports.markLectureAsComplete = async (req, res) => {
         console.log(`[markLectureAsComplete] Current completed videos: ${updatedCourseProgress.completedVideos.length}`);
         console.log(`[markLectureAsComplete] Total lectures in course: ${totalLectures}`);
 
-        // If the number of completed videos equals the total, proceed.
+
         if (updatedCourseProgress.completedVideos.length === totalLectures) {
             console.log("[markLectureAsComplete] ALL LECTURES COMPLETED! Checking for certificate generation...");
             
-            // Prevent duplicate certificate generation
+            
             const existingCertificate = await Certificate.findOne({ user: userId, course: courseId });
             
             if (existingCertificate) {
@@ -59,15 +56,15 @@ exports.markLectureAsComplete = async (req, res) => {
             } else {
                 console.log("[markLectureAsComplete] No existing certificate found. Proceeding with certificate generation.");
 
-                // --- Stage 3: Generate the Certificate PDF ---
+
                 const user = await User.findById(userId);
                 const completionDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
                 const htmlContent = certificateTemplate( `${user.firstName} ${user.lastName}`, course.courseName, completionDate);
                 
                 console.log("[markLectureAsComplete] Launching Puppeteer browser...");
                 const browser = await puppeteer.launch({ 
-                    args: ['--no-sandbox', '--disable-setuid-sandbox'], // Added for better compatibility in some environments
-                    headless: true // Ensure it runs in headless mode for server environments
+                    args: ['--no-sandbox', '--disable-setuid-sandbox'], 
+                    headless: true 
                 });
                 const page = await browser.newPage();
                 await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
@@ -75,7 +72,7 @@ exports.markLectureAsComplete = async (req, res) => {
                 await browser.close();
                 console.log("[markLectureAsComplete] PDF buffer generated via Puppeteer.");
 
-                // --- Stage 4: Store and Record ---
+               
                 console.log("[markLectureAsComplete] Uploading PDF to Cloudinary...");
                 const cloudinaryResponse = await uploadPdfToCloudinary(
                  pdfBuffer,
@@ -91,7 +88,7 @@ exports.markLectureAsComplete = async (req, res) => {
                 });
                 console.log("[markLectureAsComplete] Certificate record created in database.");
 
-                // --- Stage 5: Notify the User ---
+                
                 console.log("[markLectureAsComplete] Sending course completion email...");
                 await mailSender(
                     user.email,
@@ -103,7 +100,7 @@ exports.markLectureAsComplete = async (req, res) => {
         } else {
             console.log("[markLectureAsComplete] Not all lectures completed yet. Certificate not generated.");
         }
-        // Always return success for marking the lecture
+        
         return res.status(200).json({ success: true, message: 'Lecture marked as complete.' });
 
     } catch (error) {
@@ -119,40 +116,39 @@ exports.updateCourseProgress = async (req, res) => {
     const userId = req.user.id;
 
     try {
-        // Check if the subsection is valid
+        
         const subSection = await SubSection.findById(subSectionId);
         if (!subSection) {
             return res.status(404).json({ error: "Invalid SubSection" });
         }
 
-        // --- THIS IS THE FIX ---
-        // Find the course progress document for this user and course
+       
         let courseProgress = await CourseProgress.findOne({
             courseId: courseId,
             userId: userId,
         });
 
         if (!courseProgress) {
-            // If no progress document exists, it's the first lecture. CREATE a new one.
+          
             courseProgress = await CourseProgress.create({
                 courseId: courseId,
                 userId: userId,
-                completedVideos: [subSectionId], // Start by adding the current video to the completed list
+                completedVideos: [subSectionId], 
             });
         } else {
-            // If the document already exists, check if this video is already completed
+           
             if (courseProgress.completedVideos.includes(subSectionId)) {
                 return res.status(400).json({
                     error: "Subsection already completed",
                 });
             }
-            // If not completed, push the new subsection ID to the list
+           
             courseProgress.completedVideos.push(subSectionId);
         }
 
-        // Save the new or updated document to the database
+       
         await courseProgress.save();
-        // --- END OF FIX ---
+        
 
         return res.status(200).json({
             success: true,

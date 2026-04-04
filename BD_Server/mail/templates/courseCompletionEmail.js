@@ -1,4 +1,3 @@
-// BD_Server/mail/templates/courseCompletionEmail.js
 
 exports.courseCompletionEmail = (name, courseName, certificateUrl) => {
   return `<!DOCTYPE html>

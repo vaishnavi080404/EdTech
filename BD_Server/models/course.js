@@ -11,7 +11,7 @@ const courseSchema = new mongoose.Schema({
   },
   instructor: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',  // Changed from 'user'
+    ref: 'user',  
     required: true,
   },
   whatYouWillLearn: {
@@ -21,7 +21,7 @@ const courseSchema = new mongoose.Schema({
   courseContent: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'section', // Changed from 'section'
+      ref: 'section', 
       required: true,
     },
   ],
@@ -42,7 +42,7 @@ const courseSchema = new mongoose.Schema({
   category: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Category', // Changed from 'category'
+      ref: 'Category', 
       required: true,
     },
   ],
@@ -52,7 +52,7 @@ const courseSchema = new mongoose.Schema({
   studentsEnrolled: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'user', // Changed from 'user'
+      ref: 'user', 
       required: true,
     },
   ],

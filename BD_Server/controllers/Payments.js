@@ -1,5 +1,3 @@
-// In BD_Server/controllers/Payment.js
-
 const instance = require('../config/razorpay');
 const Course = require('../models/course');
 const User = require('../models/user');
@@ -11,7 +9,7 @@ const { paymentSuccessEmail } = require("../mail/templates/paymentSuccessfulEmai
 const CourseProgress = require('../models/courseProgress');
 const Order = require('../models/order');
 
-// --- 1. Capture the payment and initiate the Razorpay order ---
+
 exports.capturePayment = async (req, res) => {
     const { courses } = req.body;
     const userId = req.user.id;
@@ -62,7 +60,7 @@ exports.capturePayment = async (req, res) => {
 };
 
 
-// --- 2. Verify the payment and handle all post-payment actions ---
+
 exports.verifyPayment = async (req, res) => {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature, courses } = req.body;
     const userId = req.user.id;
@@ -79,14 +77,14 @@ exports.verifyPayment = async (req, res) => {
 
     if (expectedSignature === razorpay_signature) {
         try {
-            // Enroll student(s) and get the student object back
+            
             const enrolledStudent = await enrollStudents(courses, userId);
 
             if (!enrolledStudent) {
                 return res.status(500).json({ success: false, message: "Could not enroll student." });
             }
             
-            // Create the Order record
+            
             let totalAmount = 0;
             for (const courseId of courses) {
                 const course = await Course.findById(courseId);
@@ -100,7 +98,7 @@ exports.verifyPayment = async (req, res) => {
                 paymentId_razorpay: razorpay_payment_id,
             });
 
-            // Send the Payment Success Email
+          
             await mailSender(
                 enrolledStudent.email,
                 `Payment Successful - Your EdTech Order`,
@@ -124,7 +122,7 @@ exports.verifyPayment = async (req, res) => {
 };
 
 
-// --- 3. Helper function to enroll students and create progress ---
+
 const enrollStudents = async (courses, userId) => {
     try {
         const enrolledStudent = await User.findById(userId);
@@ -145,7 +143,7 @@ const enrollStudents = async (courses, userId) => {
                 continue; 
             }
 
-            // Create the CourseProgress document
+            
             const courseProgress = await CourseProgress.create({
                 courseId: courseId,
                 userId: userId,
@@ -158,7 +156,7 @@ const enrollStudents = async (courses, userId) => {
             }
             console.log(`✅ CourseProgress created: ${courseProgress._id}`);
 
-            // Add the course and its progress to the user's document
+            
             await User.findByIdAndUpdate(userId, { 
                 $push: { 
                     courses: courseId,
@@ -166,7 +164,7 @@ const enrollStudents = async (courses, userId) => {
                 } 
             });
 
-            // Send the course-specific enrollment email
+            
             await mailSender(
                 enrolledStudent.email,
                 `Successfully Enrolled into ${enrolledCourse.courseName}`,
@@ -174,11 +172,11 @@ const enrollStudents = async (courses, userId) => {
             );
         }
         
-        return enrolledStudent; // Return the student object
+        return enrolledStudent;
 
     } catch (error) {
         console.error("Error in enrollStudents helper:", error);
-        // Throw the error to be caught by the parent verifyPayment controller
+       
         throw error;
     }
 };

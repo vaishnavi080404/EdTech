@@ -25,13 +25,13 @@ exports.auth = async (req, res, next) => {
             });
         }
 
-        // ✅ Verify token & handle errors properly
+        //  verify token & handle errors properly
         jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
             if (err) {
                 console.error("Token verification error:", err);
 
                 if (err.name === "TokenExpiredError") {
-                    // ✅ Token expired → send special code
+                    // token expired → send special code
                     return res.status(401).json({
                         success: false,
                         code: "TOKEN_EXPIRED",
@@ -39,7 +39,7 @@ exports.auth = async (req, res, next) => {
                     });
                 }
 
-                // ❌ Other JWT errors (invalid token, signature error, etc.)
+            
                 return res.status(401).json({
                     success: false,
                     code: "INVALID_TOKEN",
@@ -86,29 +86,28 @@ exports.isStudent = async (req, res, next) => {
 }
 
 //isInstructor middleware
-// In /middleware/auth.js
 
 exports.isInstructor = async (req, res, next) => {
     try {
-        // We assume the 'auth' middleware has already run and added 'user' to the request
+        
         const accountType = req.user.accountType;
 
         if (accountType !== "Instructor") {
-            // --- THIS IS THE FIX ---
-            // If the user is not an Instructor, stop immediately and
-            // send a clear JSON error response.
+
+           
+           
             return res.status(401).json({
                 success: false,
                 message: "This is a protected route for Instructors only.",
             });
-            // --- END OF FIX ---
+          
         }
         
-        // If the check passes, proceed to the next function (the controller)
+       
         next();
 
     } catch (error) {
-        // This will catch any unexpected errors
+        
         return res.status(500).json({
             success: false,
             message: "User role cannot be verified. Please try again.",

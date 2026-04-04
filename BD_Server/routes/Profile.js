@@ -39,7 +39,7 @@ router.get("/getStudentAnalytics", auth, isStudent, getStudentAnalytics);
 
 router.post('/update-activity', auth, isStudent, updateUserActivity);
 
-// Route to get all certificates for a user
+// route to get all certificates for a user
 router.get("/getUserCertificates", auth, getAllUserCertificates); // Protected route
 
 
