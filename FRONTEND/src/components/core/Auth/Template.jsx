@@ -97,7 +97,7 @@ const Template = ({ title, desc1, desc2, image, formType,setIsLoggedIn }) => {
             <p className="text-warm-stone text-sm font-medium">OR</p>
             <div className="flex-grow h-[1px] bg-warm-stone/50"></div>
           </div>
-=
+
           <button 
           onClick={handleGoogleLogin}
           className="
