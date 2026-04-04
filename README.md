@@ -1,6 +1,6 @@
-# EdTech LMS Platform - StudyNotion
+# EdTech LMS Platform - SkillNest
 
-StudyNotion is a fully functional EdTech platform that enables students to browse, purchase, and learn from courses, while providing instructors with a robust dashboard to create and manage their content.
+SkillNest is a fully functional EdTech platform that enables students to browse, purchase, and learn from courses, while providing instructors with a robust dashboard to create and manage their content.
 
 ##  Project Overview
 
@@ -49,7 +49,7 @@ Workflow: Git, GitHub, Postman, Vite
 
 The project is structured as a Monorepo for easier development:
 
-
+```text
 EdTech/
 ├── FRONTEND/        # React application (Vite)
 ├── BD_Server/       # Node.js Express server

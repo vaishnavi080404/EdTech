@@ -25,7 +25,7 @@ exports.courseCompletionEmail = (name, courseName, certificateUrl) => {
             <td>
                 <div class="container">
                     <div class="header">
-                        <a href="https://your-studynotion-url.com"><img class="logo" src="https://i.ibb.co/7Xyj3PC/logo.png" alt="EdTech Logo"></a>
+                        <a href="https://your-SkillNest-url.com"><img class="logo" src="https://i.ibb.co/7Xyj3PC/logo.png" alt="EdTech Logo"></a>
                     </div>
                     <div class="content">
                         <h1>Congratulations, ${name}!</h1>
