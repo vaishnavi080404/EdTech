@@ -14,7 +14,7 @@ import ReviewSlider from '../components/common/ReviewSlider'
 
 const Home = () => {
   return (
-    <div className='relative w-full'>
+    <div className='overflow-x-hidden'>
 
      
       <div className='relative bg-espresso-brown text-soft-terracotta '>
