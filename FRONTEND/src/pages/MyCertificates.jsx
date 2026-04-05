@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getUserAllCertificates } from '../services/operations/profileAPI'
-import { Link } from 'react-router-dom';
+
+import { downloadCertificate } from '../components/common/CertificateDownloader';
 
 const MyCertificates = () => {
     const { token } = useSelector((state) => state.auth);
+    
+    
+    const { user } = useSelector((state) => state.profile);
+
     const [certificates, setCertificates] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -38,35 +43,36 @@ const MyCertificates = () => {
                 <p className="text-richblack-200">No certificates earned yet. Complete a course to receive one!</p>
             ) : (
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-{certificates.map((cert) => {
-    console.log(cert);   
-    return (
-        <div key={cert._id} className="relative flex flex-col rounded-lg bg-espresso-brown border-2 p-6 shadow-md">
-            {cert.course?.thumbnail && (
-                <img 
-                    src={cert.course.thumbnail} 
-                    alt={cert.course.courseName} 
-                    className="h-40 w-full rounded-md object-cover mb-4" 
-                />
-            )}
-            <h2 className="text-xl font-semibold text-richblack-5 mb-2">{cert.course?.courseName || 'Unknown Course'}</h2>
-            <p className="text-richblack-200 text-sm mb-4">
-                Issued on: {cert?.issuedDate 
-                ? new Date(cert.issuedDate).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) 
-                : "Not available"}
-            </p>
-            <Link 
-                to={cert.certificateUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="mt-auto px-4 py-2 bg-yellow-300 text-black rounded-md hover:bg-yellow-200 transition-all duration-200 flex items-center justify-center gap-2"
-            >
-                View Certificate
-            </Link>
-        </div>
-    )
-})}
+                    {certificates.map((cert) => {
+                        return (
+                            <div key={cert._id} className="relative flex flex-col rounded-lg bg-espresso-brown border-2 p-6 shadow-md border-richblack-700">
+                                {cert.course?.thumbnail && (
+                                    <img 
+                                        src={cert.course.thumbnail} 
+                                        alt={cert.course.courseName} 
+                                        className="h-40 w-full rounded-md object-cover mb-4" 
+                                    />
+                                )}
+                                <h2 className="text-xl font-semibold text-richblack-5 mb-2">{cert.course?.courseName || 'Unknown Course'}</h2>
+                                <p className="text-richblack-200 text-sm mb-4">
+                                    Issued on: {cert?.issuedDate 
+                                    ? new Date(cert.issuedDate).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) 
+                                    : "Not available"}
+                                </p>
 
+                               
+                                <button 
+                                    onClick={() => downloadCertificate(
+                                        `${user?.firstName} ${user?.lastName}`, 
+                                        cert.course?.courseName
+                                    )}
+                                    className="mt-auto px-4 py-2 bg-yellow-300 text-black rounded-md hover:bg-yellow-200 transition-all duration-200 flex items-center justify-center gap-2 font-bold"
+                                >
+                                    Download PDF
+                                </button>
+                            </div>
+                        )
+                    })}
                 </div>
             )}
         </div>
@@ -74,21 +80,3 @@ const MyCertificates = () => {
 };
 
 export default MyCertificates;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//vaishnavi08_DB_User username of db
-
-//vMk_0804  password of db
