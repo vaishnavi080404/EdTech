@@ -1,6 +1,9 @@
-const BASE_URL = import.meta.env.VITE_APP_BASE_URL
+const envBase = import.meta.env.VITE_APP_BASE_URL;
 
 
+const BASE_URL = window.location.hostname === "localhost" 
+  ? `http://localhost:4000${envBase}` 
+  : envBase;
 
 
 // AUTH ENDPOINTS
