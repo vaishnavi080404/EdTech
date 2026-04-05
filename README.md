@@ -1,6 +1,7 @@
 # EdTech LMS Platform - SkillNest
 
 SkillNest is a fully functional EdTech platform that enables students to browse, purchase, and learn from courses, while providing instructors with a robust dashboard to create and manage their content.
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=render)](https://edtech-skillnest.onrender.com)
 
 ##  Project Overview
 

@@ -76,7 +76,7 @@ exports.emailVerificationTemplate = (otp) => {
                 <div class="container">
                     <!-- Header -->
                     <div class="header">
-                        <a href="https://localhost:5173/">
+                        <a href="https://edtech-skillnest.onrender.com">
                             <img class="logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN3przndJA76LEddJYIlVB7aqm1WTmd5lovxDyy2_Kl3ZQUnsM3Uy-9vE&s" alt="EdTech Logo">
                         </a>
                     </div>

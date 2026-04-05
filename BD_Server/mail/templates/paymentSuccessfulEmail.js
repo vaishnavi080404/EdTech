@@ -104,7 +104,7 @@ exports.paymentSuccessEmail = (name, amount, orderId, paymentId) => {
                 <div class="container">
                     <!-- Header -->
                     <div class="header">
-                        <a href="https://localhost:5173/">
+                        <a href="https://edtech-skillnest.onrender.com">
                             <img class="logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN3przndJA76LEddJYIlVB7aqm1WTmd5lovxDyy2_Kl3ZQUnsM3Uy-9vE&s" alt="EdTech Logo">
                         </a>
                     </div>
@@ -126,7 +126,7 @@ exports.paymentSuccessEmail = (name, amount, orderId, paymentId) => {
                         <p>We're excited to see you start your learning journey!</p>
 
                         <div class="button-wrapper">
-                            <a class="cta-button" href="http://localhost:5173/dashboard/enrolled-courses">Go to My Courses</a>
+                            <a class="cta-button" href="https://edtech-skillnest.onrender.com/dashboard/enrolled-courses">Go to My Courses</a>
                         </div>
                     </div>
                     <!-- Footer -->
