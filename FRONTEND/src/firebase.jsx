@@ -7,13 +7,12 @@ import { getAnalytics } from "firebase/analytics";
 const apiKey = import.meta.env.VITE_FIREBASE_API_KEY;
 
 const firebaseConfig = {
-  apiKey: apiKey,
-  authDomain: "edtech-platform-25d9d.firebaseapp.com",
-  projectId: "edtech-platform-25d9d",
-  storageBucket: "edtech-platform-25d9d.appspot.com",
-  messagingSenderId: "214431018899",
-  appId: "1:214431018899:web:63e8e5b73a6e19c649c266",
-  measurementId: "G-Y11VFCBL3T"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: "edtech-skillnest.firebasestorage.app",
+  messagingSenderId: "73996814889",
+  appId: "1:73996814889:web:ebc100815ce7d80ab46a38"
 };
 
 // initialize firebase
