@@ -11,6 +11,7 @@
     "concurrently": "^8.2.0"
   },
   "dependencies": {
+    "@sendgrid/mail": "^8.1.6",
     "resend": "^6.10.0"
   }
 }
