@@ -2,23 +2,20 @@ const nodemailer = require('nodemailer');
 
 const mailSender = async (email, title, body) => {
     try {
-        // create a transporter object
         let transporter = nodemailer.createTransport({
-            host: process.env.MAIL_HOST,
-            port: 587,           
-            secure: false,        
+            service: 'gmail', 
             auth: {
                 user: process.env.MAIL_USER,
                 pass: process.env.MAIL_PASSWORD,
             },
-          
-            tls: {
-                rejectUnauthorized: false 
-            }
+            
+            connectionTimeout: 10000, 
+            greetingTimeout: 10000,
+            socketTimeout: 10000,
         });
 
         let info = await transporter.sendMail({
-            from: `"SkillNest" <${process.env.MAIL_USER}>`, 
+            from: `"SkillNest" <${process.env.MAIL_USER}>`,
             to: `${email}`,
             subject: `${title}`,
             html: body,
@@ -29,7 +26,6 @@ const mailSender = async (email, title, body) => {
 
     } catch (error) {
         console.error(`❌ Error occurred while sending email: ${error.message}`);
-        
         return null; 
     }
 }

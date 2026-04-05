@@ -57,6 +57,20 @@ exports.sendOtp = async (req, res) => {
     const otpBody =await OTP.create(otpPlayload);
     console.log(otpBody);
 
+     const mailResponse = await mailSender(
+            email, 
+            "Verification Email", 
+            `Your OTP is ${otp}`
+        );
+
+       
+        if (!mailResponse) {
+            return res.status(500).json({
+                success: false,
+                message: "Error occurred while sending email (Network Timeout).",
+            });
+        }
+        
     //return response successfully
     res.status(200).json({
         success: true,
