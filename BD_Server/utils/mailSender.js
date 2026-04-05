@@ -1,11 +1,13 @@
 const { Resend } = require('resend');
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const mailSender = async (email, title, body) => {
     try {
+        console.log("RESEND_API_KEY present:", !!process.env.RESEND_API_KEY); // debug line
+        
+        const resend = new Resend(process.env.RESEND_API_KEY);
+
         const { data, error } = await resend.emails.send({
-            from: 'Edtech <onboarding@resend.dev>', 
+            from: 'Edtech <onboarding@resend.dev>',
             to: [email],
             subject: title,
             html: body,
@@ -26,5 +28,3 @@ const mailSender = async (email, title, body) => {
 };
 
 module.exports = mailSender;
-
-// re_ZV8taF5b_6QSYGW5Ah5Lpv2icSiFdA1LZ
