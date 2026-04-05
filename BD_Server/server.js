@@ -32,7 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:5174"],  //  or '*' if testing
+  origin: ["http://localhost:5173", "http://localhost:5174","https://edtech-skillnest.onrender.com"],  //  or '*' if testing
   credentials: true,
 }));
 app.use(fileUpload({
@@ -51,9 +51,9 @@ app.use('/api/v1/profile', profileRoutes);
 app.use('/api/v1/progress', courseProgressRoutes);
 
 // default route
-app.get("/", (request, response) => {
-    response.send('WELCOMEE!');
-})
+// app.get("/", (request, response) => {
+//     response.send('WELCOMEE!');
+// })
 
 
 const path = require("path");
