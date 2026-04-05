@@ -3,19 +3,17 @@ const nodemailer = require('nodemailer');
 const mailSender = async (email, title, body) => {
     try {
         let transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 465, 
-            secure: true, 
+            // Use 'service' instead of 'host' for higher reliability on Render
+            service: 'gmail',
             auth: {
                 user: process.env.MAIL_USER,
                 pass: process.env.MAIL_PASSWORD,
             },
-            
-            tls: {
-                rejectUnauthorized: false,
-            },
-            connectionTimeout: 10000, // 10 seconds
-            socketTimeout: 10000,
+            // Add specific pool and timeout settings
+            pool: true,
+            maxConnections: 1,
+            maxMessages: Infinity,
+            connectionTimeout: 20000, // Increase to 20 seconds
         });
 
         let info = await transporter.sendMail({
@@ -29,7 +27,7 @@ const mailSender = async (email, title, body) => {
         return info;
 
     } catch (error) {
-      
+        // This log is vital for your interview troubleshooting
         console.error(`❌ NODEMAILER ERROR: ${error.message}`);
         return null; 
     }
