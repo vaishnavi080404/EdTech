@@ -55,6 +55,16 @@ app.get("/", (request, response) => {
     response.send('WELCOMEE!');
 })
 
+
+const path = require("path");
+
+app.use(express.static(path.join(__dirname, "../FRONTEND/dist")));
+
+
+app.get("*all", (req, res) => {
+  res.sendFile(path.join(__dirname, "../FRONTEND/dist", "index.html"));
+});
+
 // start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

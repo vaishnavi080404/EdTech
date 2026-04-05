@@ -2,9 +2,11 @@
   "name": "edtech-root",
   "version": "1.0.0",
   "scripts": {
-    "dev": "concurrently -n \"client,server\" -c \"bgBlue,bgYellow\" \"npm run start --prefix FRONTEND\" \"npm run server --prefix BD_Server\"",
-    "install-all": "npm install && npm install --prefix FRONTEND && npm install --prefix BD_Server"
-  },
+  "install-all": "npm install && npm install --prefix FRONTEND && npm install --prefix BD_Server",
+  "build": "npm run build --prefix FRONTEND",
+  "start": "node BD_Server/server.js",
+  "dev": "concurrently -n \"client,server\" -c \"bgBlue,bgYellow\" \"npm run start --prefix FRONTEND\" \"npm run server --prefix BD_Server\""
+},
   "devDependencies": {
     "concurrently": "^8.2.0"
   }
