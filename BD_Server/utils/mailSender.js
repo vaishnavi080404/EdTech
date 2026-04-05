@@ -1,36 +1,30 @@
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const mailSender = async (email, title, body) => {
     try {
-        let transporter = nodemailer.createTransport({
-            // Use 'service' instead of 'host' for higher reliability on Render
-            service: 'gmail',
-            auth: {
-                user: process.env.MAIL_USER,
-                pass: process.env.MAIL_PASSWORD,
-            },
-            // Add specific pool and timeout settings
-            pool: true,
-            maxConnections: 1,
-            maxMessages: Infinity,
-            connectionTimeout: 20000, // Increase to 20 seconds
-        });
-
-        let info = await transporter.sendMail({
-            from: `"SkillNest" <${process.env.MAIL_USER}>`,
-            to: `${email}`,
-            subject: `${title}`,
+        const { data, error } = await resend.emails.send({
+            from: 'Edtech <onboarding@resend.dev>', 
+            to: [email],
+            subject: title,
             html: body,
         });
 
-        console.log('✅ Email sent successfully:', info.messageId);
-        return info;
+        if (error) {
+            console.error('❌ RESEND ERROR:', error);
+            return false;
+        }
+
+        console.log('✅ Email sent successfully:', data);
+        return data;
 
     } catch (error) {
-        // This log is vital for your interview troubleshooting
-        console.error(`❌ NODEMAILER ERROR: ${error.message}`);
-        return null; 
+        console.error(`❌ Error occurred while sending email: ${error.message}`);
+        return false;
     }
-}
+};
 
 module.exports = mailSender;
+
+// re_ZV8taF5b_6QSYGW5Ah5Lpv2icSiFdA1LZ
