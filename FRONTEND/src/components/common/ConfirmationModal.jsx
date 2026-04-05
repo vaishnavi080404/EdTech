@@ -1,6 +1,5 @@
 import React from 'react';
-import IconBtn from './IconBtn'; // Your styled, reusable button component
-
+import IconBtn from './IconBtn'; 
 const ConfirmationModal = ({ modalData }) => {
   return (
   
@@ -26,14 +25,14 @@ const ConfirmationModal = ({ modalData }) => {
         
           <IconBtn
             onClick={modalData.btn1Handler}
-            text={modalData.btn1Text} // Using the more descriptive prop name
+            text={modalData.btn1Text} 
           />
           
     
           <IconBtn
             outline={true}
             onClick={modalData.btn2Handler}
-            text={modalData.btn2Text} // Using the more descriptive prop name
+            text={modalData.btn2Text} 
           />
         </div>
       </div>

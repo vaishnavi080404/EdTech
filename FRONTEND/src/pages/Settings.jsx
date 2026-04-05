@@ -65,8 +65,8 @@ const Settings = () => {
    const modalData = {
      text1: "Are you sure?",
      text2: "This action is permanent and cannot be undone.",
-     btn1: "Delete",
-     btn2: "Cancel",
+     btn1Text: "Delete",
+     btn2Text: "Cancel",
      btn1Handler: handleDeleteAccount,
      btn2Handler: closeConfirmationModal,
    };
